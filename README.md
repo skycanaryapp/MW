@@ -21,7 +21,6 @@ A complete, production-ready Next.js website for MagicWorld Travel Agency built 
 - **Icons**: Lucide React
 - **Font**: Nunito (Google Fonts)
 - **Animations**: Framer Motion (optional)
-
 ## 🎨 Design System
 
 - **Colors**:
