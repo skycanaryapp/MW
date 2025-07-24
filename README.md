@@ -19,7 +19,7 @@ A complete, production-ready Next.js website for MagicWorld Travel Agency built 
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Font**: Poppins (Google Fonts)
+- **Font**: Nunito (Google Fonts)
 - **Animations**: Framer Motion (optional)
 
 ## 🎨 Design System
@@ -30,6 +30,7 @@ A complete, production-ready Next.js website for MagicWorld Travel Agency built 
   - Accents: Gradient from aqua (#08CFCC) to violet (#B445EA)
   - Footer: Light gray (#F5F5F5)
 - **Typography**: Poppins font family
+- **Typography**: Nunito font family
 - **Border Radius**: 8px consistency
 - **Spacing**: 8px base unit system
 
