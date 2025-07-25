@@ -1,23 +1,32 @@
 'use client';
 
 import { useState } from 'react';
-import type { Metadata } from 'next';
 import { DestinationCard } from '@/components/ui/destination-card';
+import { DestinationCardSkeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DESTINATIONS } from '@/lib/constants';
 
-// Note: We can't use metadata in client components, so this would need to be in a separate metadata.ts file
-// or move the filtering logic to server-side
-
 export default function DestinationsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [isLoading, setIsLoading] = useState(false);
   
   const categories = ['All', ...Array.from(new Set(DESTINATIONS.map(dest => dest.category)))];
   
   const filteredDestinations = selectedCategory === 'All' 
     ? DESTINATIONS 
     : DESTINATIONS.filter(dest => dest.category === selectedCategory);
+
+  const handleCategoryChange = async (category: string) => {
+    if (category === selectedCategory) return;
+    
+    setIsLoading(true);
+    setSelectedCategory(category);
+    
+    // Simulate loading delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setIsLoading(false);
+  };
 
   return (
     <div className="pt-16">
@@ -48,11 +57,19 @@ export default function DestinationsPage() {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 className={`cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  selectedCategory === category
+                  'cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 min-h-[44px] px-4 py-2',
                     ? 'bg-gradient-to-r from-[#08CFCC] to-[#B445EA] text-white border-0'
                     : 'hover:border-gray-400'
                 }`}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => handleCategoryChange(category)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCategoryChange(category);
+                  }
+                }}
               >
                 {category}
               </Badge>
@@ -73,17 +90,25 @@ export default function DestinationsPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredDestinations.map((destination) => (
-              <DestinationCard key={destination.id} destination={destination} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <DestinationCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredDestinations.map((destination) => (
+                <DestinationCard key={destination.id} destination={destination} />
+              ))}
+            </div>
+          )}
 
           {filteredDestinations.length === 0 && (
             <div className="text-center py-16">
               <p className="text-gray-600 text-lg">No destinations found for the selected category.</p>
               <Button
-                onClick={() => setSelectedCategory('All')}
+                onClick={() => handleCategoryChange('All')}
                 className="mt-4 bg-gradient-to-r from-[#08CFCC] to-[#B445EA] text-white"
               >
                 View All Destinations

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { DestinationCard } from '@/components/ui/destination-card';
 import { BadgeCard } from '@/components/ui/badge-card';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { Play, ArrowRight } from 'lucide-react';
 import { DESTINATIONS, BADGES } from '@/lib/constants';
 
@@ -12,7 +13,7 @@ export default function HomePage() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50" aria-label="Hero section">
         <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-10" />
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto space-y-8">
@@ -30,7 +31,7 @@ export default function HomePage() {
               <Button 
                 asChild
                 size="lg"
-                className="bg-gradient-to-r from-[#08CFCC] to-[#B445EA] hover:from-[#07B8B5] hover:to-[#A33DD1] text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-gradient-to-r from-[#08CFCC] to-[#B445EA] hover:from-[#07B8B5] hover:to-[#A33DD1] text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 min-h-[44px]"
               >
                 <Link href="/destinations" className="flex items-center space-x-2">
                   <span>Start Your Journey</span>
@@ -40,7 +41,8 @@ export default function HomePage() {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-2 border-gray-300 hover:border-gray-400 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:-translate-y-1"
+                className="border-2 border-gray-300 hover:border-gray-400 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:-translate-y-1 min-h-[44px]"
+                aria-label="Watch our company story video"
               >
                 <Play className="w-5 h-5 mr-2" />
                 Watch Our Story
@@ -51,13 +53,13 @@ export default function HomePage() {
       </section>
 
       {/* Video/Globe Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white" aria-label="Company overview">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <div className="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl p-16 shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-r from-[#08CFCC]/10 to-[#B445EA]/10 rounded-2xl" />
               <div className="relative z-10">
-                <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-r from-[#08CFCC] to-[#B445EA] rounded-full flex items-center justify-center shadow-2xl">
+                <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-r from-[#08CFCC] to-[#B445EA] rounded-full flex items-center justify-center shadow-2xl" role="img" aria-label="Play button">
                   <Play className="w-16 h-16 text-white ml-2" />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -73,7 +75,8 @@ export default function HomePage() {
       </section>
 
       {/* Featured Destinations */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <ErrorBoundary>
+        <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50" aria-label="Featured destinations">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -96,7 +99,7 @@ export default function HomePage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-2 border-gray-300 hover:border-gray-400 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:-translate-y-1"
+                className="border-2 border-gray-300 hover:border-gray-400 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:-translate-y-1 min-h-[44px]"
             >
               <Link href="/destinations">
                 View All Destinations
@@ -105,10 +108,12 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
-      </section>
+        </section>
+      </ErrorBoundary>
 
       {/* Badges Section */}
-      <section className="py-20 bg-white">
+      <ErrorBoundary>
+        <section className="py-20 bg-white" aria-label="Why choose MagicWorld">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
@@ -127,10 +132,11 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+        </section>
+      </ErrorBoundary>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-[#08CFCC] to-[#B445EA]">
+      <section className="py-20 bg-gradient-to-r from-[#08CFCC] to-[#B445EA]" aria-label="Call to action">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto space-y-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
@@ -142,7 +148,7 @@ export default function HomePage() {
             <Button 
               asChild
               size="lg"
-              className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+              className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 min-h-[44px]"
             >
               <Link href="/contact">
                 Get Started Today

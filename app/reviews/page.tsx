@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { ReviewCard } from '@/components/ui/review-card';
+import { ReviewCardSkeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, Users, TrendingUp, Award } from 'lucide-react';
 import { REVIEWS } from '@/lib/constants';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export const metadata: Metadata = {
   title: 'Customer Reviews',
@@ -16,6 +18,17 @@ export const metadata: Metadata = {
 };
 
 export default function ReviewsPage() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading reviews
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const stats = [
     {
       icon: Star,
@@ -106,22 +119,54 @@ export default function ReviewsPage() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {REVIEWS.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <ReviewCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {REVIEWS.map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
+          )}
 
           <div className="text-center">
             <p className="text-gray-600 mb-6">
               Want to see more reviews? Check out our profiles on popular review platforms.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button variant="outline" size="lg" className="border-2 border-gray-300 hover:border-gray-400">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-gray-300 hover:border-gray-400 min-h-[44px]"
+                asChild
+              >
+                <a 
+                  href="https://www.tripadvisor.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="View our reviews on TripAdvisor (opens in new tab)"
+                >
                 View on TripAdvisor
+                </a>
               </Button>
-              <Button variant="outline" size="lg" className="border-2 border-gray-300 hover:border-gray-400">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-gray-300 hover:border-gray-400 min-h-[44px]"
+                asChild
+              >
+                <a 
+                  href="https://www.google.com/maps" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="View our reviews on Google (opens in new tab)"
+                >
                 View on Google Reviews
+                </a>
               </Button>
             </div>
           </div>

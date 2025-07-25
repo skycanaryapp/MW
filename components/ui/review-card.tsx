@@ -1,6 +1,7 @@
 'use client';
 
 import { Star } from 'lucide-react';
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import type { Review } from '@/types';
@@ -10,6 +11,12 @@ interface ReviewCardProps {
 }
 
 export function ReviewCard({ review }: ReviewCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = review.comment.length > 150;
+  const displayComment = shouldTruncate && !isExpanded 
+    ? review.comment.slice(0, 150) + '...' 
+    : review.comment;
+
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
@@ -28,10 +35,20 @@ export function ReviewCard({ review }: ReviewCardProps) {
               <h4 className="font-semibold text-gray-900">{review.name}</h4>
               <div className="flex items-center space-x-1">
                 {[...Array(5)].map((_, i) => (
+                aria-hidden="true"
                   <Star
                     key={i}
-                    className={`w-4 h-4 ${
-                      i < review.rating 
+          <blockquote className="text-gray-700 leading-relaxed italic text-sm">
+            "{displayComment}"
+            {shouldTruncate && (
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="ml-2 text-blue-600 hover:text-blue-800 underline text-sm font-medium"
+                aria-label={isExpanded ? 'Show less' : 'Show more'}
+              >
+                {isExpanded ? 'Show less' : 'Read more'}
+              </button>
+            )}
                         ? 'text-yellow-400 fill-current' 
                         : 'text-gray-300'
                     }`}
@@ -52,6 +69,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
                 day: 'numeric'
               })}
             </p>
+            </time>
           </div>
         </div>
       </CardContent>

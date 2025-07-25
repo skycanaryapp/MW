@@ -206,7 +206,7 @@
       rgba(255, 255, 255, 0.3),
       transparent
     );
-    transition: left 0.6s ease;
+    transition: left 0.6s ease-in-out;
   }
   
   &:hover::before {
@@ -224,10 +224,11 @@
 
 /* Mobile menu glass effect */
 .glass-mobile-menu {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(20px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.1) !important;
   
   /* Subtle gradient overlay */
   &::before {
@@ -244,6 +245,55 @@
     );
     pointer-events: none;
   }
+}
+
+/* Mobile menu animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Improved focus styles for accessibility */
+.liquid-glass-header a:focus,
+.liquid-glass-header button:focus {
+  outline: 2px solid #08CFCC;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Enhanced hover effects for navigation links */
+.liquid-glass-header nav a {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+.liquid-glass-header nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #08CFCC, #B445EA);
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.liquid-glass-header nav a:hover::after {
+  width: 100%;
 }
 
 /* Responsive adjustments for glass effects */
@@ -271,6 +321,12 @@
   .liquid-orb-3 {
     width: 70px;
     height: 70px;
+  }
+  
+  /* Ensure mobile menu is properly sized */
+  .glass-mobile-menu {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
   }
 }
 
